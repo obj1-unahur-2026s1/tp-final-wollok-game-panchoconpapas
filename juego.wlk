@@ -1,139 +1,89 @@
 import wollok.game.*
+import enemigos.*
+import comidas.*
+
 object juego {
   method iniciar() {
     game.title("Kike Vs Zombies")
     game.width(10)
     game.height(10)
-    game.cellSize(100)
+    game.cellSize(50)
     game.ground("pasto.png")
-
-    self.generarEnemigosDeNivel(1)
-    self.generarEnemigosDeNivel(2)
-    self.generarEnemigosDeNivel(3)
-
-    self.generarComidasDeNivel(1)
-    self.generarComidasDeNivel(2)
-
+    
+    self.generarEnemigos()
+    self.generarComidas()
+    
     kike.aparecer()
-    game.onCollideDo(kike, {algo => algo.teCruzasteConKike()})
+    game.onCollideDo(kike, { algo => algo.teCruzasteConKike(algo) })
   }
-
-  method generarEnemigosDeNivel(unNivel) {
-    game.schedule(1000, {self.aparecerEnemigoDeNivel(unNivel)})
+  
+  method generarComidas() {
+    self.aparecerComidaHuesoDeNivel(1)
+    self.aparecerComidaLocroDeNivel(2)
+    self.aparecerComidaPizza(3)
   }
-
-  method aparecerEnemigoDeNivel(unNivel) {
-    const enemigo = new Enemigo(nivel = unNivel)
-    enemigo.aparecer()
+  
+  method aparecerComidaPizza(unNivel) {
+    const pizza = new Pizza(nivel = unNivel)
+    game.schedule(1000, { pizza.aparecer() })
   }
-
-  method generarComidasDeNivel(unNivel) {
-    game.schedule(500, {self.aparecerComidaDeNivel(unNivel)})
+  
+  method aparecerComidaHuesoDeNivel(unNivel) {
+    const hueso = new HuesoConCarne(nivel = unNivel)
+    game.schedule(1000, { hueso.aparecer() })
   }
-
-  method aparecerComidaDeNivel(unNivel) {
-    const comida = new Comida(nivel = unNivel)
-    comida.aparecer()
+  
+  method aparecerComidaLocroDeNivel(unNivel) {
+    const locro = new Locrazo(nivel = unNivel)
+    game.schedule(1000, { locro.aparecer() })
+  }
+  
+  method generarEnemigos() {
+    self.aparecerEnemigoPerritoDeNivel(1)
+    self.aparecerEnemigoPerroDeNivel(2)
+    self.aparecerEnemigoPerroteDeNivel(3)
+  }
+  
+  method aparecerEnemigoPerritoDeNivel(unNivel) {
+    const perrito = new Perrito(nivel = unNivel)
+    game.schedule(1000, { perrito.aparecer() })
+  }
+  
+  method aparecerEnemigoPerroDeNivel(unNivel) {
+    const perro = new Perro(nivel = unNivel)
+    game.schedule(1000, { perro.aparecer() })
+  }
+  
+  method aparecerEnemigoPerroteDeNivel(unNivel) {
+    const perrote = new Perrote(nivel = unNivel)
+    game.schedule(1000, { perrote.aparecer() })
   }
 }
 
 object kike {
-  var puntos = 0
+  var property puntos = 0
   var vida = 10
-
-  method puntos() = puntos
+  var property position = game.origin()
+  
   method vida() = vida
-
+  
+  method text() = vida.toString()
+  
   method aparecer() {
     game.addVisualCharacter(self)
   }
-
-  method aumentarPuntos() {
-    puntos = puntos + 5
+  
+  method aumentarPuntosPorToparseCon(unaComida) {
+    unaComida.puntosQueOtorga()
   }
-
-  method perderVida() {
-    vida = vida - 1
+  
+  method perderVidasPorToparseConEnemigo(unEnemigo) {
+    vida -= unEnemigo.vidasQueArrebata()
   }
-
-  method perderVidas(cantidad) {
-
+  
+  method aumentarVidas() {
+    vida += 1
   }
-
-
-
-  var property position = game.origin()
-
+  
   method image() = "kike.png"
-}
-
-
-class Comida {
-    const nivel
-    var property position = self.positionAleatoria()
-
-    method positionAleatoria() {
-      return (
-        game.at(
-          0.randomUpTo(game.width()), 0.randomUpTo(game.height())
-      )
-     )
-    }
-
-    method teCruzasteConKike() {
-      kike.aumentarPuntos()
-      game.say(self, "Ummm que rico, mis puntos son: " + kike.puntos().toString())
-    }
-
-    method animarse() {
-
-    }
-
-    method aparecer() {
-      game.addVisual(self)
-    }
-
-    method image() {
-      if (nivel == 1) {
-        return "comidita.png"
-      } else {
-        return "locro.png"
-      }
-    }
-}
-
-class Enemigo {
-    const nivel
-    var property position = self.positionAleatoria()
-
-    method teCruzasteConKike() {
-      kike.perderVida()
-      game.say(self, "Auch, me quedan: " + kike.vida().toString() + " vidas.")
-    }
-
-    method moverseAleatoriamente() {
-
-    }
-
-    method positionAleatoria() {
-      return (
-        game.at(
-          0.randomUpTo(game.width()), 0.randomUpTo(game.height())
-      )
-     )
-    }
-
-    method aparecer() {
-      game.addVisual(self)
-    }
-
-    method image() {
-      if (nivel == 1) {
-        return "perrito.png"
-      } else if (nivel == 2) {
-        return "perro.png"
-      } else {
-        return "perrote.png"
-      }
-    }
 }
