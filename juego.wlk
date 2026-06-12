@@ -67,14 +67,14 @@ object kike {
   
   method vida() = vida
   
-  method text() = "Mi vida: " + vida.toString() + ". " + "Mis puntos: " + puntos.toString() + "."
+  method text() = (((("Mi vida: " + vida.toString()) + ". ") + "Mis puntos: ") + puntos.toString()) + "."
   
   method aparecer() {
     game.addVisualCharacter(self)
   }
   
   method aumentarPuntosPorToparseCon(unaComida) {
-    puntos =+ unaComida.puntosQueOtorga()
+    puntos += unaComida.puntosQueOtorga()
   }
   
   method perderVidasPorToparseConEnemigo(unEnemigo) {
