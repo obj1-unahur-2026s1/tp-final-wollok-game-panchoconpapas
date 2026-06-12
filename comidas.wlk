@@ -12,7 +12,6 @@ class Comida {
   method teCruzasteConKike(comida) {
     kike.aumentarPuntosPorToparseCon(comida)
     game.say(self, "Ummm que rico, mis puntos son: " + kike.puntos().toString())
-    self.desaparecer()
   }
   
   method desaparecer() {
