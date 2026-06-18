@@ -10,9 +10,10 @@ class Enemigo {
     0.randomUpTo(game.height())
   )
   
-  method teCruzasteConKike(enemigo) {
-    kike.perderVidasPorToparseConEnemigo(enemigo)
-    game.say(self, ("Auch, me quedan: " + kike.vida().toString()) + " vidas.")
+  method teCruzasteCon(personaje, enemigo) {
+    personaje.perderVidasPorToparseConEnemigo(enemigo)
+    // game.say(self, ("Auch, me quedan: " + kike.vida().toString()) + " vidas.")
+    game.say(self, "Auch eso dolió")
   }
   
   method vidasQueArrebata()

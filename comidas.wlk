@@ -9,14 +9,15 @@ class Comida {
     0.randomUpTo(game.height())
   )
   
-  method teCruzasteConKike(comida) {
-    kike.aumentarPuntosPorToparseCon(comida)
-    game.say(self, "Ummm que rico, mis puntos son: " + kike.puntos().toString())
+  method teCruzasteCon(personaje, comida) {
+    personaje.aumentarPuntosPorToparseCon(comida)
+    // game.say(self, "Ummm que rico, mis puntos son: " + kike.puntos().toString())
+    game.say(self, "Estaba rico")
     self.desaparecer()
   }
   
   method desaparecer() {
-    game.schedule(3000, {game.removeVisual(self)})
+    game.schedule(1000, { game.removeVisual(self) })
   }
   
   method animarse() {

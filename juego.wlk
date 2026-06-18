@@ -1,6 +1,7 @@
 import wollok.game.*
 import enemigos.*
 import comidas.*
+import obstaculos.*
 
 object juego {
   method iniciar() {
@@ -10,11 +11,24 @@ object juego {
     game.cellSize(50)
     game.ground("pasto.png")
     
-    self.generarEnemigos()
+    2.times({ i => self.generarEnemigos() })
+    
+    25.times({ i => self.agregarObstaculo() })
+    
     self.generarComidas()
     
+    marcador.aparecer()
     kike.aparecer()
-    game.onCollideDo(kike, { algo => algo.teCruzasteConKike(algo) })
+    
+    game.onCollideDo(
+      kike,
+      { elemento => elemento.teCruzasteCon(kike, elemento) }
+    )
+    self.terminarJuego()
+  }
+  
+  method terminarJuego() {
+    
   }
   
   method generarComidas() {
@@ -22,6 +36,15 @@ object juego {
     self.aparecerComidaLocroDeNivel(2)
     self.aparecerComidaPizza(3)
   }
+  
+  method agregarObstaculo() {
+    game.addVisual(new Obstaculo(position = self.posicionAleatoria()))
+  }
+  
+  method posicionAleatoria() = game.at(
+    0.randomUpTo(game.width()),
+    0.randomUpTo(game.height())
+  )
   
   method aparecerComidaPizza(unNivel) {
     const pizza = new Pizza(nivel = unNivel)
@@ -64,11 +87,11 @@ object kike {
   var property puntos = 0
   var vida = 10
   var property position = game.origin()
+  var positionAnterior = position
   
   method vida() = vida
   
-  method text() = (((("Mi vida: " + vida.toString()) + ". ") + "Mis puntos: ") + puntos.toString()) + "."
-  
+  // method text() = (((("Mi vida: " + vida.toString()) + ". ") + "Mis puntos: ") + puntos.toString()) + "."
   method aparecer() {
     game.addVisualCharacter(self)
   }
@@ -85,5 +108,24 @@ object kike {
     vida += 1
   }
   
+  method position(nueva) {
+    positionAnterior = position
+    position = nueva
+  }
+  
+  method retroceder() {
+    position = positionAnterior
+  }
+  
   method image() = "kike.png"
+}
+
+object marcador {
+  method text() = ((("Vidas: " + kike.vida().toString()) + ". Puntos: ") + kike.puntos().toString()) + "."
+  
+  method position() = game.at(game.width() / 2, game.height() - 1)
+  
+  method aparecer() {
+    game.addVisual(self)
+  }
 }
