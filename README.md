@@ -1,10 +1,9 @@
-# Nombre del juego (<- borrar y completar)
+# Kike Game
 
 ## Equipo de desarrollo
 
-- Alguien
-- Persona
-- etc.
+- **LEANDRO LEONEL RAMOS**
+- **JOHANN GUSTAVO ADAM**
 
 ## Capturas
 
