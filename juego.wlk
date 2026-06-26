@@ -178,4 +178,6 @@ object marcadorFinal {
     0.randomUpTo(game.width()),
     0.randomUpTo(game.height())
   )
+  method teCruzasteCon(arg1, arg2) {
+  }
 }
