@@ -11,6 +11,11 @@ object juego {
     game.cellSize(50)
     game.ground("pasto.png")
     game.start()
+
+    kike.aparecer()
+    marcador.aparecer()
+        marcadorFinal.aparecer()
+
     
     2.times({ i => self.generarEnemigos() })
     
@@ -18,30 +23,28 @@ object juego {
     
     self.generarComidas()
     
-    marcador.aparecer()
-    kike.aparecer()
-    marcadorFinal.aparecer()
-    
     game.onCollideDo(
       kike,
       { elemento => elemento.teCruzasteCon(kike, elemento) }
     )
   }
   
-  method terminarJuego() {
-      game.stop()
-      game.clear()
+  method terminarJuegoMal() {
       self.cargarPantallaDeMuerte()
   }
 
- /* method terminarJuego() {
-    game.say(kike, "¡Gaaame Overrr! Me quedé sin vidas.")
-    game.stop()
-  } */
+  method terminarJuegoBien() {
+      self.cargarPantallaDeVictoria()
+  }
   
   method cargarPantallaDeMuerte() {
-    game.ground("invisible.png")
-    game.boardGround("gameover.png")
+    game.clear()
+    game.addVisual(gameOver)
+  }
+
+  method cargarPantallaDeVictoria() {
+    game.clear()
+    game.addVisual(victoria)
   }
   
   method generarComidas() {
@@ -59,7 +62,7 @@ object juego {
     // } else {
     //   game.addVisual(obstaculo)
     // }
-    game.addVisual(new Obstaculo(position = self.posicionAleatoria()))
+    game.addVisual(new Obstaculo(position = self.posicionAleatoriaVacia()))
   }
   
   method posicionAleatoria() = game.at(
@@ -135,7 +138,7 @@ object kike {
   method perderVidasPorToparseConEnemigo(unEnemigo) {
     vida -= unEnemigo.vidasQueArrebata()
     if (vida <= 0) {
-      juego.terminarJuego()
+      juego.terminarJuegoMal()
     }
   }
   
@@ -179,5 +182,16 @@ object marcadorFinal {
     0.randomUpTo(game.height())
   )
   method teCruzasteCon(arg1, arg2) {
+    juego.terminarJuegoBien()
   }
+}
+
+object gameOver {
+  method position() = game.origin()
+  method image() = "gameOver.png"
+}
+
+object victoria {
+  method position() = game.origin()
+  method image() = "victoria.png"
 }
