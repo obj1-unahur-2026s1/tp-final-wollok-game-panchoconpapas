@@ -26,16 +26,18 @@ object juego {
       kike,
       { elemento => elemento.teCruzasteCon(kike, elemento) }
     )
-    game.onTick(10, "terminar juego", { self.terminarJuego() })
   }
   
   method terminarJuego() {
-    if (kike.vida() < 1 or kike.position() == marcadorFinal.position()) {
       game.stop()
       game.clear()
       self.cargarPantallaDeMuerte()
-    }
   }
+
+ /* method terminarJuego() {
+    game.say(kike, "¡Gaaame Overrr! Me quedé sin vidas.")
+    game.stop()
+  } */
   
   method cargarPantallaDeMuerte() {
     game.ground("invisible.png")
@@ -64,6 +66,16 @@ object juego {
     0.randomUpTo(game.width()),
     0.randomUpTo(game.height())
   )
+
+  method posicionAleatoriaVacia() {
+    const posiblePosicion = self.posicionAleatoria()
+    
+    if (game.getObjectsIn(posiblePosicion).isEmpty()) {
+      return posiblePosicion
+    } else {
+      return self.posicionAleatoriaVacia()
+    }
+  }
   
   method aparecerComidaPizza(unNivel) {
     const pizza = new Pizza(nivel = unNivel)
@@ -122,6 +134,9 @@ object kike {
   
   method perderVidasPorToparseConEnemigo(unEnemigo) {
     vida -= unEnemigo.vidasQueArrebata()
+    if (vida <= 0) {
+      juego.terminarJuego()
+    }
   }
   
   method aumentarVidas() {

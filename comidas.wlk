@@ -2,12 +2,22 @@ import juego.*
 
 class Comida {
   const property nivel
-  var property position = self.positionAleatoria()
+  var property position = game.origin()
   
   method positionAleatoria() = game.at(
     0.randomUpTo(game.width()),
     0.randomUpTo(game.height())
   )
+
+ method posicionAleatoriaVacia() {
+    const posiblePosicion = self.positionAleatoria()
+    
+    if (game.getObjectsIn(posiblePosicion).isEmpty()) {
+      return posiblePosicion
+    } else {
+      return self.posicionAleatoriaVacia()
+    }
+  }
   
   method teCruzasteCon(personaje, comida) {
     personaje.aumentarPuntosPorToparseCon(comida)
@@ -25,6 +35,7 @@ class Comida {
   }
   
   method aparecer() {
+    position = self.posicionAleatoriaVacia()
     game.addVisual(self)
   }
   

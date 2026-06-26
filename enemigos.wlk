@@ -3,13 +3,23 @@ import juego.*
 class Enemigo {
   const nivel
   var property vida = self.vidaPorNivel(nivel)
-  var property position = self.posicionAleatoria()
+  var property position = game.origin()
   
   method posicionAleatoria() = game.at(
     0.randomUpTo(game.width()),
     0.randomUpTo(game.height())
   )
   
+  method posicionAleatoriaVacia() {
+    const posiblePosicion = self.posicionAleatoria()
+    
+    if (game.getObjectsIn(posiblePosicion).isEmpty()) {
+      return posiblePosicion
+    } else {
+      return self.posicionAleatoriaVacia()
+    }
+  }
+
   method teCruzasteCon(personaje, enemigo) {
     personaje.perderVidasPorToparseConEnemigo(enemigo)
     // game.say(self, ("Auch, me quedan: " + kike.vida().toString()) + " vidas.")
@@ -19,6 +29,7 @@ class Enemigo {
   method vidasQueArrebata()
   
   method aparecer() {
+    position = self.posicionAleatoriaVacia()
     game.addVisual(self)
   }
   
