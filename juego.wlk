@@ -10,6 +10,7 @@ object juego {
     game.height(10)
     game.cellSize(50)
     game.ground("pasto.png")
+    game.start()
     
     2.times({ i => self.generarEnemigos() })
     
@@ -19,16 +20,17 @@ object juego {
     
     marcador.aparecer()
     kike.aparecer()
+    marcadorFinal.aparecer()
     
     game.onCollideDo(
       kike,
       { elemento => elemento.teCruzasteCon(kike, elemento) }
     )
-    game.onTick(100, "terminar juego", { self.terminarJuego() })
+    game.onTick(10, "terminar juego", { self.terminarJuego() })
   }
   
   method terminarJuego() {
-    if (kike.vida() < 1) {
+    if (kike.vida() < 1 or kike.position() == marcadorFinal.position()) {
       game.stop()
       game.clear()
       self.cargarPantallaDeMuerte()
@@ -37,7 +39,7 @@ object juego {
   
   method cargarPantallaDeMuerte() {
     game.ground("invisible.png")
-    game.boardGround("gameOver.png")
+    game.boardGround("gameover.png")
   }
   
   method generarComidas() {
@@ -98,6 +100,7 @@ object juego {
     const perrote = new Perrote(nivel = unNivel)
     game.schedule(1000, { perrote.aparecer() })
   }
+
 }
 
 object kike {
@@ -145,4 +148,19 @@ object marcador {
   method aparecer() {
     game.addVisual(self)
   }
+
+  method teCruzasteCon(personaje, elemento) {
+  }
+}
+
+object marcadorFinal {
+  method position() = game.at(9,9)
+  method image() = "hijitos.png"
+  method aparecer() {
+    game.addVisual(self)
+  }
+  method posicionAleatoria() = game.at(
+    0.randomUpTo(game.width()),
+    0.randomUpTo(game.height())
+  )
 }

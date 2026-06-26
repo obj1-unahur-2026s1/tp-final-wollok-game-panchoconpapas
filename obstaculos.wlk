@@ -7,5 +7,6 @@ class Obstaculo {
   
   method teCruzasteCon(personaje, elemento) {
     personaje.retroceder()
+    game.say(self, "No se puede pasar por acá")
   }
 }
