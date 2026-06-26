@@ -5,6 +5,7 @@ import obstaculos.*
 
 object juego {
   method iniciar() {
+    game.start()
     game.title("Kike Vs Zombies")
     game.width(10)
     game.height(10)
@@ -24,11 +25,20 @@ object juego {
       kike,
       { elemento => elemento.teCruzasteCon(kike, elemento) }
     )
-    self.terminarJuego()
+    game.onTick(100, "terminar juego", { self.terminarJuego() })
   }
   
   method terminarJuego() {
-    
+    if (kike.vida() < 1) {
+      game.stop()
+      game.clear()
+      self.cargarPantallaDeMuerte()
+    }
+  }
+  
+  method cargarPantallaDeMuerte() {
+    game.ground("invisible.png")
+    game.boardGround("gameOver.png")
   }
   
   method generarComidas() {
@@ -38,6 +48,14 @@ object juego {
   }
   
   method agregarObstaculo() {
+    // var posicion = self.posicionAleatoria()
+    // const obstaculo = new Obstaculo(position = posicion)
+    // if (obstaculo.position() == game.getObjectsIn(posicion).first().position()) {
+    //   posicion = self.posicionAleatoria()
+    //   game.addVisual(obstaculo)
+    // } else {
+    //   game.addVisual(obstaculo)
+    // }
     game.addVisual(new Obstaculo(position = self.posicionAleatoria()))
   }
   
