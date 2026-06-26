@@ -5,7 +5,6 @@ import obstaculos.*
 
 object juego {
   method iniciar() {
-    game.start()
     game.title("Kike Vs Zombies")
     game.width(10)
     game.height(10)
