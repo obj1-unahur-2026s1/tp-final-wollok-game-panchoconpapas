@@ -30,10 +30,10 @@ object juego {
       { elemento => elemento.teCruzasteCon(kike, elemento) }
     )
 
-    keyboard.arrow("left").onPressDo({kike.perderEnergia(1)})
-    keyboard.arrow("up").onPressDo({kike.perderEnergia(1)})
-    keyboard.arrow("down").onPressDo({kike.perderEnergia(1)})
-    keyboard.arrow("right").onPressDo({kike.perderEnergia(1)})
+    keyboard.up().onPressDo({kike.perderEnergia(1)})
+    keyboard.down().onPressDo({kike.perderEnergia(1)})
+    keyboard.left().onPressDo({kike.perderEnergia(1)})
+    keyboard.right().onPressDo({kike.perderEnergia(1)})
   }
   
   method agregarParedDestructible() {
