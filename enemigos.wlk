@@ -19,8 +19,9 @@ class Enemigo {
       return self.posicionAleatoriaVacia()
     }
   }
-
+  
   method teCruzasteCon(personaje, enemigo) {
+    game.sound("golpeSound.mp3").play()
     personaje.perderVidasPorToparseConEnemigo(enemigo)
     // game.say(self, ("Auch, me quedan: " + kike.vida().toString()) + " vidas.")
     game.say(self, "Auch eso dolió")

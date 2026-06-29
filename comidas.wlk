@@ -8,8 +8,8 @@ class Comida {
     0.randomUpTo(game.width()),
     0.randomUpTo(game.height())
   )
-
- method posicionAleatoriaVacia() {
+  
+  method posicionAleatoriaVacia() {
     const posiblePosicion = self.positionAleatoria()
     
     if (game.getObjectsIn(posiblePosicion).isEmpty()) {
@@ -20,6 +20,8 @@ class Comida {
   }
   
   method teCruzasteCon(personaje, comida) {
+    personaje.paralizar()
+    game.sound("perroComiendo.mp3").play()
     personaje.aumentarPuntosPorToparseCon(comida)
     // game.say(self, "Ummm que rico, mis puntos son: " + kike.puntos().toString())
     game.say(self, "Estaba rico")

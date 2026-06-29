@@ -2,24 +2,26 @@ import wollok.game.*
 import enemigos.*
 import comidas.*
 import obstaculos.*
+import elementos.*
 
 object juego {
   method iniciar() {
-    game.title("Kike Vs Zombies")
+    game.title("Kike Game")
     game.width(10)
     game.height(10)
     game.cellSize(50)
     game.ground("pasto.png")
     game.start()
-
+    
     kike.aparecer()
     marcador.aparecer()
-        marcadorFinal.aparecer()
-
+    marcadorFinal.aparecer()
+    
     
     2.times({ i => self.generarEnemigos() })
     
     25.times({ i => self.agregarObstaculo() })
+    5.times({ i => self.agregarParedDestructible() })
     
     self.generarComidas()
     
@@ -27,21 +29,32 @@ object juego {
       kike,
       { elemento => elemento.teCruzasteCon(kike, elemento) }
     )
+
+    keyboard.arrow("left").onPressDo({kike.perderEnergia(1)})
+    keyboard.arrow("up").onPressDo({kike.perderEnergia(1)})
+    keyboard.arrow("down").onPressDo({kike.perderEnergia(1)})
+    keyboard.arrow("right").onPressDo({kike.perderEnergia(1)})
+  }
+  
+  method agregarParedDestructible() {
+    game.addVisual(
+      new ObstaculoDestructible(position = self.posicionAleatoriaVacia())
+    )
   }
   
   method terminarJuegoMal() {
-      self.cargarPantallaDeMuerte()
+    self.cargarPantallaDeMuerte()
   }
-
+  
   method terminarJuegoBien() {
-      self.cargarPantallaDeVictoria()
+    self.cargarPantallaDeVictoria()
   }
   
   method cargarPantallaDeMuerte() {
     game.clear()
     game.addVisual(gameOver)
   }
-
+  
   method cargarPantallaDeVictoria() {
     game.clear()
     game.addVisual(victoria)
@@ -54,14 +67,6 @@ object juego {
   }
   
   method agregarObstaculo() {
-    // var posicion = self.posicionAleatoria()
-    // const obstaculo = new Obstaculo(position = posicion)
-    // if (obstaculo.position() == game.getObjectsIn(posicion).first().position()) {
-    //   posicion = self.posicionAleatoria()
-    //   game.addVisual(obstaculo)
-    // } else {
-    //   game.addVisual(obstaculo)
-    // }
     game.addVisual(new Obstaculo(position = self.posicionAleatoriaVacia()))
   }
   
@@ -69,7 +74,7 @@ object juego {
     0.randomUpTo(game.width()),
     0.randomUpTo(game.height())
   )
-
+  
   method posicionAleatoriaVacia() {
     const posiblePosicion = self.posicionAleatoria()
     
@@ -115,83 +120,4 @@ object juego {
     const perrote = new Perrote(nivel = unNivel)
     game.schedule(1000, { perrote.aparecer() })
   }
-
-}
-
-object kike {
-  var property puntos = 0
-  var vida = 10
-  var property position = game.origin()
-  var positionAnterior = position
-  
-  method vida() = vida
-  
-  // method text() = (((("Mi vida: " + vida.toString()) + ". ") + "Mis puntos: ") + puntos.toString()) + "."
-  method aparecer() {
-    game.addVisualCharacter(self)
-  }
-  
-  method aumentarPuntosPorToparseCon(unaComida) {
-    puntos += unaComida.puntosQueOtorga()
-  }
-  
-  method perderVidasPorToparseConEnemigo(unEnemigo) {
-    vida -= unEnemigo.vidasQueArrebata()
-    if (vida <= 0) {
-      juego.terminarJuegoMal()
-    }
-  }
-  
-  method aumentarVidas() {
-    vida += 1
-  }
-  
-  method position(nueva) {
-    positionAnterior = position
-    position = nueva
-  }
-  
-  method retroceder() {
-    position = positionAnterior
-  }
-  
-  method image() = "kike.png"
-}
-
-object marcador {
-  method text() = ((("Vidas: " + kike.vida().toString()) + ". Puntos: ") + kike.puntos().toString()) + "."
-  
-  method position() = game.at(game.width() / 2, game.height() - 1)
-  
-  method aparecer() {
-    game.addVisual(self)
-  }
-
-  method teCruzasteCon(personaje, elemento) {
-  }
-}
-
-object marcadorFinal {
-  method position() = game.at(9,9)
-  method image() = "hijitos.png"
-  method aparecer() {
-    game.addVisual(self)
-  }
-  method posicionAleatoria() = game.at(
-    0.randomUpTo(game.width()),
-    0.randomUpTo(game.height())
-  )
-  method teCruzasteCon(arg1, arg2) {
-    juego.terminarJuegoBien()
-  }
-}
-
-object gameOver {
-  method position() = game.origin()
-  method image() = "gameOver.png"
-}
-
-object victoria {
-  method position() = game.origin()
-  method image() = "victoria.png"
 }
