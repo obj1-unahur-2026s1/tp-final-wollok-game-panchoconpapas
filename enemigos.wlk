@@ -30,8 +30,10 @@ class Enemigo {
   method vidasQueArrebata()
   
   method aparecer() {
+    const listaDeEnemigos = []
     position = self.posicionAleatoriaVacia()
     game.addVisual(self)
+    listaDeEnemigos.add(self)
   }
   
   method vidaPorNivel(unNivel) {
@@ -45,18 +47,17 @@ class Enemigo {
       }
     }
   }
-  
+
+  method movete() {
+    position = self.posicionAleatoriaVacia()
+  }
+
   method image()
   
-  method ataque()
 }
 
 class Perrito inherits Enemigo {
   override method image() = "perrito.png"
-  
-  override method ataque() {
-    
-  }
   
   override method vidasQueArrebata() = 1
 }
@@ -64,19 +65,11 @@ class Perrito inherits Enemigo {
 class Perro inherits Enemigo {
   override method image() = "perro.png"
   
-  override method ataque() {
-    
-  }
-  
   override method vidasQueArrebata() = 2
 }
 
 class Perrote inherits Enemigo {
   override method image() = "perrote.png"
-  
-  override method ataque() {
-    
-  }
   
   override method vidasQueArrebata() = 3
 }

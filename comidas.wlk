@@ -32,10 +32,6 @@ class Comida {
     game.schedule(1000, { game.removeVisual(self) })
   }
   
-  method animarse() {
-    
-  }
-  
   method aparecer() {
     position = self.posicionAleatoriaVacia()
     game.addVisual(self)
@@ -43,13 +39,7 @@ class Comida {
   
   method image()
   
-  method puntosQueOtorga()
-}
-
-class HuesoConCarne inherits Comida {
-  override method image() = "comidita.png"
-  
-  override method puntosQueOtorga() {
+  method puntosQueOtorga() {
     if (nivel == 1) {
       return 1
     } else {
@@ -62,19 +52,17 @@ class HuesoConCarne inherits Comida {
   }
 }
 
+class HuesoConCarne inherits Comida {
+  override method image() = "comidita.png"
+  
+  override method puntosQueOtorga() = super() + 2
+}
+
 class Locrazo inherits Comida {
   override method image() = "locro.png"
   
   override method puntosQueOtorga() {
-    if (nivel == 1) {
-      return 2
-    } else {
-      if (nivel == 2) {
-        return 6
-      } else {
-        return 10
-      }
-    }
+    return super() + 3
   }
 }
 
@@ -82,14 +70,6 @@ class Pizza inherits Comida {
   override method image() = "pizza.png"
   
   override method puntosQueOtorga() {
-    if (nivel == 1) {
-      return 3
-    } else {
-      if (nivel == 2) {
-        return 6
-      } else {
-        return 12
-      }
-    }
+    return super() + 4
   }
 }

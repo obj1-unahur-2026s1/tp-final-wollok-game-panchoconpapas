@@ -16,25 +16,43 @@ object juego {
     kike.aparecer()
     marcador.aparecer()
     marcadorFinal.aparecer()
+    self.generarElementos()
+
+    const listaDeEnemigos = game.allVisuals().filter(
+      { elemento =>
+        ((elemento.image() == "perrito.png") or (elemento.image() == "perro.png")) or (elemento.image() == "perrote.png") }
+    )
     
-    
-    2.times({ i => self.generarEnemigos() })
-    
-    25.times({ i => self.agregarObstaculo() })
-    5.times({ i => self.agregarParedDestructible() })
-    
-    self.generarComidas()
+    game.onTick(
+      1000,
+      "moverse",
+      { listaDeEnemigos.forEach({ enemigo => enemigo.movete() }) }
+    )
     
     game.onCollideDo(
       kike,
       { elemento => elemento.teCruzasteCon(kike, elemento) }
     )
 
-    keyboard.up().onPressDo({kike.perderEnergia(1)})
-    keyboard.down().onPressDo({kike.perderEnergia(1)})
-    keyboard.left().onPressDo({kike.perderEnergia(1)})
-    keyboard.right().onPressDo({kike.perderEnergia(1)})
+    self.configs()
   }
+
+  method configs() {
+    keyboard.up().onPressDo({ kike.perderEnergia(1) })
+    keyboard.down().onPressDo({ kike.perderEnergia(1) })
+    keyboard.left().onPressDo({ kike.perderEnergia(1) })
+    keyboard.right().onPressDo({ kike.perderEnergia(1) })
+  }
+
+  method generarElementos() {
+    2.times({ i => self.generarEnemigos() })
+    
+    25.times({ i => self.agregarObstaculo() })
+    5.times({ i => self.agregarParedDestructible() })
+    
+    self.generarComidas()
+  }
+
   
   method agregarParedDestructible() {
     game.addVisual(

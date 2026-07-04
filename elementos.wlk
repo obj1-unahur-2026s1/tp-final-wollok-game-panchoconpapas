@@ -8,7 +8,6 @@ object kike {
   
   method vida() = vida
   
-  // method text() = (((("Mi vida: " + vida.toString()) + ". ") + "Mis puntos: ") + puntos.toString()) + "."
   method aparecer() {
     game.addVisualCharacter(self)
   }
@@ -69,6 +68,8 @@ object marcador {
   method teCruzasteCon(personaje, elemento) {
     
   }
+
+  method image() = "marcador.png"
 }
 
 object marcadorFinal {
