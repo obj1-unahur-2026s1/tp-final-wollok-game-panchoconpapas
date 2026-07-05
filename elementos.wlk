@@ -2,11 +2,9 @@ import juego.*
 
 object kike {
   var property energia = 100
-  var vida = 10
+  var property vida = 10
   var property position = game.origin()
   var positionAnterior = position
-  
-  method vida() = vida
   
   method aparecer() {
     game.addVisualCharacter(self)
@@ -96,12 +94,16 @@ object marcadorFinal {
 
 object gameOver {
   method position() = game.origin()
+
+  method teCruzasteCon(personaje, elemento) {
+  }
   
   method image() = "gameOver.png"
 }
 
 object victoria {
   method position() = game.origin()
-  
+  method teCruzasteCon(personaje, elemento) {
+  }
   method image() = "victoria.png"
 }

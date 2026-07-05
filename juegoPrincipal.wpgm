@@ -2,5 +2,5 @@ import wollok.game.*
 import juego.*
 
 program Juego {
-  juego.iniciar()
+  juego.iniciarPantallaPrincipal()
 }

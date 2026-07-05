@@ -11,12 +11,6 @@ object juego {
   method musica() = sonidoAmbiente
   
   method iniciar() {
-    game.title("Kike Game")
-    game.width(10)
-    game.height(10)
-    game.cellSize(50)
-    game.ground("pasto.png")
-    game.start()
     game.schedule(
       500,
       { 
@@ -77,11 +71,29 @@ object juego {
   method cargarPantallaDeMuerte() {
     game.clear()
     game.addVisual(gameOver)
+    keyboard.enter().onPressDo(
+      { 
+        game.removeVisual(gameOver)
+        kike.energia(100)
+        kike.vida(10)
+        kike.position(game.origin())
+        return self.iniciar()
+      }
+    )
   }
   
   method cargarPantallaDeVictoria() {
     game.clear()
     game.addVisual(victoria)
+    keyboard.enter().onPressDo(
+      { 
+        game.removeVisual(victoria)
+        kike.energia(100)
+        kike.vida(10)
+        kike.position(game.origin())
+        return self.iniciar()
+      }
+    )
   }
   
   method generarComidas() {
@@ -148,4 +160,29 @@ object juego {
     const perrote = new Perrote(nivel = unNivel)
     game.schedule(1000, { perrote.aparecer() })
   }
+  
+  method iniciarPantallaPrincipal() {
+    game.title("Kike Game")
+    game.width(10)
+    game.height(10)
+    game.cellSize(50)
+    game.ground("pasto.png")
+    game.start()
+    pantallaPrincipal.mostrar()
+    keyboard.enter().onPressDo(
+      { 
+        game.removeVisual(pantallaPrincipal)
+        5
+        return self.iniciar()
+      }
+    )
+  }
+}
+
+object pantallaPrincipal {
+  method image() = "pantallaPrincipal.png"
+  
+  method position() = game.origin()
+  
+  method mostrar() = game.addVisual(self)
 }
