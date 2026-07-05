@@ -5,6 +5,8 @@ import obstaculos.*
 import elementos.*
 
 object juego {
+  const listaDeEnemigos = []
+  
   method iniciar() {
     game.title("Kike Game")
     game.width(10)
@@ -17,11 +19,6 @@ object juego {
     marcador.aparecer()
     marcadorFinal.aparecer()
     self.generarElementos()
-
-    const listaDeEnemigos = game.allVisuals().filter(
-      { elemento =>
-        ((elemento.image() == "perrito.png") or (elemento.image() == "perro.png")) or (elemento.image() == "perrote.png") }
-    )
     
     game.onTick(
       1000,
@@ -33,17 +30,17 @@ object juego {
       kike,
       { elemento => elemento.teCruzasteCon(kike, elemento) }
     )
-
+    
     self.configs()
   }
-
+  
   method configs() {
     keyboard.up().onPressDo({ kike.perderEnergia(1) })
     keyboard.down().onPressDo({ kike.perderEnergia(1) })
     keyboard.left().onPressDo({ kike.perderEnergia(1) })
     keyboard.right().onPressDo({ kike.perderEnergia(1) })
   }
-
+  
   method generarElementos() {
     2.times({ i => self.generarEnemigos() })
     
@@ -52,7 +49,6 @@ object juego {
     
     self.generarComidas()
   }
-
   
   method agregarParedDestructible() {
     game.addVisual(
@@ -101,6 +97,10 @@ object juego {
     } else {
       return self.posicionAleatoriaVacia()
     }
+  }
+  
+  method agregarEnemigo(unEnemigo) {
+    listaDeEnemigos.add(unEnemigo)
   }
   
   method aparecerComidaPizza(unNivel) {

@@ -26,7 +26,7 @@ object kike {
   
   method perderEnergia(cantidad) {
     energia -= cantidad
-    if(energia <= 0) {
+    if (energia <= 0) {
       game.sound("gameOverSound.mp3").play()
       juego.terminarJuegoMal()
     }
@@ -68,7 +68,7 @@ object marcador {
   method teCruzasteCon(personaje, elemento) {
     
   }
-
+  
   method image() = "marcador.png"
 }
 

@@ -23,7 +23,6 @@ class Comida {
     personaje.paralizar()
     game.sound("perroComiendo.mp3").play()
     personaje.aumentarPuntosPorToparseCon(comida)
-    // game.say(self, "Ummm que rico, mis puntos son: " + kike.puntos().toString())
     game.say(self, "Estaba rico")
     self.desaparecer()
   }
@@ -61,15 +60,11 @@ class HuesoConCarne inherits Comida {
 class Locrazo inherits Comida {
   override method image() = "locro.png"
   
-  override method puntosQueOtorga() {
-    return super() + 3
-  }
+  override method puntosQueOtorga() = super() + 3
 }
 
 class Pizza inherits Comida {
   override method image() = "pizza.png"
   
-  override method puntosQueOtorga() {
-    return super() + 4
-  }
+  override method puntosQueOtorga() = super() + 4
 }

@@ -4,6 +4,7 @@ class Enemigo {
   const nivel
   var property vida = self.vidaPorNivel(nivel)
   var property position = game.origin()
+  const listaDeEnemigos = []
   
   method posicionAleatoria() = game.at(
     0.randomUpTo(game.width()),
@@ -30,10 +31,9 @@ class Enemigo {
   method vidasQueArrebata()
   
   method aparecer() {
-    const listaDeEnemigos = []
     position = self.posicionAleatoriaVacia()
     game.addVisual(self)
-    listaDeEnemigos.add(self)
+    juego.agregarEnemigo(self)
   }
   
   method vidaPorNivel(unNivel) {
@@ -47,13 +47,12 @@ class Enemigo {
       }
     }
   }
-
+  
   method movete() {
     position = self.posicionAleatoriaVacia()
   }
-
-  method image()
   
+  method image()
 }
 
 class Perrito inherits Enemigo {
