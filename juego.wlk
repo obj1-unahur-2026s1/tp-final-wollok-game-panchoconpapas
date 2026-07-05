@@ -6,6 +6,9 @@ import elementos.*
 
 object juego {
   const listaDeEnemigos = []
+  const sonidoAmbiente = game.sound("kikeSound.mp3")
+  
+  method musica() = sonidoAmbiente
   
   method iniciar() {
     game.title("Kike Game")
@@ -14,6 +17,13 @@ object juego {
     game.cellSize(50)
     game.ground("pasto.png")
     game.start()
+    game.schedule(
+      500,
+      { 
+        sonidoAmbiente.play()
+        return sonidoAmbiente.volume(0.025)
+      }
+    )
     
     kike.aparecer()
     marcador.aparecer()

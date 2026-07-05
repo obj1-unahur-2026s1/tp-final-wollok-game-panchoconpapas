@@ -19,6 +19,7 @@ object kike {
   method perderVidasPorToparseConEnemigo(unEnemigo) {
     vida -= unEnemigo.vidasQueArrebata()
     if (vida <= 0) {
+      juego.musica().pause()
       game.sound("gameOverSound.mp3").play()
       juego.terminarJuegoMal()
     }
@@ -27,6 +28,7 @@ object kike {
   method perderEnergia(cantidad) {
     energia -= cantidad
     if (energia <= 0) {
+      juego.musica().pause()
       game.sound("gameOverSound.mp3").play()
       juego.terminarJuegoMal()
     }
