@@ -4,7 +4,6 @@ class Enemigo {
   const nivel
   var property vida = self.vidaPorNivel(nivel)
   var property position = game.origin()
-  const listaDeEnemigos = []
   
   method posicionAleatoria() = game.at(
     0.randomUpTo(game.width()),
@@ -24,7 +23,6 @@ class Enemigo {
   method teCruzasteCon(personaje, enemigo) {
     game.sound("golpeSound.mp3").play()
     personaje.perderVidasPorToparseConEnemigo(enemigo)
-    // game.say(self, ("Auch, me quedan: " + kike.vida().toString()) + " vidas.")
     game.say(self, "Auch eso dolió")
   }
   
