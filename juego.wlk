@@ -7,37 +7,41 @@ import elementos.*
 object juego {
   const listaDeEnemigos = []
   const sonidoAmbiente = game.sound("kikeSound.mp3")
-  
+  var juegoEnMarcha = false
   method musica() = sonidoAmbiente
   
   method iniciar() {
-    game.schedule(
-      500,
-      { 
-        sonidoAmbiente.play()
-        return sonidoAmbiente.volume(0.025)
-      }
-    )
-    
+    try {
+      sonidoAmbiente.volume(0.025)
+      sonidoAmbiente.play()
+    } catch e : Exception {}
     kike.aparecer()
     marcador.aparecer()
     marcadorFinal.aparecer()
+    game.onTick(1000, "moverse", { listaDeEnemigos.forEach({ enemigo => enemigo.movete() }) })
+    game.onCollideDo(kike, { elemento => elemento.teCruzasteCon(kike, elemento) })
     self.generarElementos()
-    
-    game.onTick(
-      1000,
-      "moverse",
-      { listaDeEnemigos.forEach({ enemigo => enemigo.movete() }) }
-    )
-    
-    game.onCollideDo(
-      kike,
-      { elemento => elemento.teCruzasteCon(kike, elemento) }
-    )
-    
-    self.configs()
   }
   
+  method iniciarPantallaPrincipal() {
+    game.title("Kike Game")
+    game.width(10)
+    game.height(10)
+    game.cellSize(50)
+    game.ground("pasto.png")
+    self.configs()
+    game.start()
+    pantallaPrincipal.mostrar()
+    keyboard.enter().onPressDo({
+        if (!juegoEnMarcha) {
+            juegoEnMarcha = true 
+            game.removeVisual(pantallaPrincipal)
+            self.iniciar()
+            }
+      }
+    )
+  }
+
   method configs() {
     keyboard.up().onPressDo({ kike.perderEnergia(1) })
     keyboard.down().onPressDo({ kike.perderEnergia(1) })
@@ -69,29 +73,40 @@ object juego {
   }
   
   method cargarPantallaDeMuerte() {
+    juegoEnMarcha = false
     game.clear()
     game.addVisual(gameOver)
+    juegoEnMarcha = false
     keyboard.enter().onPressDo(
-      { 
-        game.removeVisual(gameOver)
-        kike.energia(100)
-        kike.vida(10)
-        kike.position(game.origin())
-        return self.iniciar()
+      {
+        if (not juegoEnMarcha) {
+          juegoEnMarcha = true
+          game.removeVisual(gameOver)
+          listaDeEnemigos.clear()
+          kike.energia(100)
+          kike.vida(10)
+          kike.position(game.origin())
+          self.iniciar()
+          }   
       }
     )
   }
   
   method cargarPantallaDeVictoria() {
+    juegoEnMarcha = false
     game.clear()
     game.addVisual(victoria)
     keyboard.enter().onPressDo(
       { 
-        game.removeVisual(victoria)
-        kike.energia(100)
-        kike.vida(10)
-        kike.position(game.origin())
-        return self.iniciar()
+        if (not juegoEnMarcha) {
+          juegoEnMarcha = true
+          game.removeVisual(victoria)
+          listaDeEnemigos.clear()
+          kike.energia(100)
+          kike.vida(10)
+          kike.position(game.origin())
+          self.iniciar()
+          }
       }
     )
   }
@@ -161,22 +176,6 @@ object juego {
     game.schedule(1000, { perrote.aparecer() })
   }
   
-  method iniciarPantallaPrincipal() {
-    game.title("Kike Game")
-    game.width(10)
-    game.height(10)
-    game.cellSize(50)
-    game.ground("pasto.png")
-    game.start()
-    pantallaPrincipal.mostrar()
-    keyboard.enter().onPressDo(
-      { 
-        game.removeVisual(pantallaPrincipal)
-        5
-        return self.iniciar()
-      }
-    )
-  }
 }
 
 object pantallaPrincipal {
