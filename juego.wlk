@@ -43,10 +43,10 @@ object juego {
   }
 
   method configs() {
-    keyboard.up().onPressDo({ kike.perderEnergia(1) })
-    keyboard.down().onPressDo({ kike.perderEnergia(1) })
-    keyboard.left().onPressDo({ kike.perderEnergia(1) })
-    keyboard.right().onPressDo({ kike.perderEnergia(1) })
+    keyboard.up().onPressDo({ kike.perderEnergia() })
+    keyboard.down().onPressDo({ kike.perderEnergia() })
+    keyboard.left().onPressDo({ kike.perderEnergia() })
+    keyboard.right().onPressDo({ kike.perderEnergia() })
   }
   
   method generarElementos() {
@@ -83,8 +83,8 @@ object juego {
           juegoEnMarcha = true
           game.removeVisual(gameOver)
           listaDeEnemigos.clear()
-          kike.energia(100)
-          kike.vida(10)
+          kike.recargarVida()
+          kike.recargarEnergia()
           kike.position(game.origin())
           self.iniciar()
           }   
@@ -102,8 +102,8 @@ object juego {
           juegoEnMarcha = true
           game.removeVisual(victoria)
           listaDeEnemigos.clear()
-          kike.energia(100)
-          kike.vida(10)
+          kike.recargarVida()
+          kike.recargarEnergia()
           kike.position(game.origin())
           self.iniciar()
           }

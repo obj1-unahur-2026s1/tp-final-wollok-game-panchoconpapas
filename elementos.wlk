@@ -15,16 +15,24 @@ object kike {
   }
   
   method perderVidasPorToparseConEnemigo(unEnemigo) {
-    vida -= unEnemigo.vidasQueArrebata()
+    vida -= 0.max(unEnemigo.vidasQueArrebata())
     if (vida <= 0) {
       juego.musica().pause()
       game.sound("gameOverSound.mp3").play()
       juego.terminarJuegoMal()
     }
   }
+
+  method recargarVida() {
+    vida = 10
+  }
+
+  method recargarEnergia() {
+    energia = 100
+  }
   
-  method perderEnergia(cantidad) {
-    energia -= cantidad
+  method perderEnergia() {
+    energia = 0.max(energia - 1)
     if (energia <= 0) {
       juego.musica().pause()
       game.sound("gameOverSound.mp3").play()
