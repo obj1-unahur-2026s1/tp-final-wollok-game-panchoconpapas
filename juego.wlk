@@ -29,7 +29,9 @@ object juego {
   }
   
   method iniciarPantallaPrincipal() {
-    pantallaPrincipal.mostrar()
+    if (not game.hasVisual(pantallaPrincipal)) {
+      pantallaPrincipal.mostrar()
+    }
     keyboard.enter().onPressDo(
       { if (!juegoEnMarcha) {
           juegoEnMarcha = true
@@ -43,27 +45,43 @@ object juego {
           juegoEnMarcha = true
           game.removeVisual(pantallaPrincipal)
           game.addVisual(controles)
-          keyboard.m().onPressDo({game.removeVisual(controles); juegoEnMarcha = false; self.iniciarPantallaPrincipal()})
+          keyboard.m().onPressDo(
+            { 
+              game.removeVisual(controles)
+              juegoEnMarcha = false
+              return self.iniciarPantallaPrincipal()
+            }
+          )
         } }
     )
-
-    keyboard.i().onPressDo({
-      if (!juegoEnMarcha) {
-        juegoEnMarcha = true
-        game.removeVisual(pantallaPrincipal)
-        game.addVisual(instrucciones)
-        keyboard.m().onPressDo({game.removeVisual(instrucciones); juegoEnMarcha = false; self.iniciarPantallaPrincipal()})
-      }
-    })
+    
+    keyboard.i().onPressDo(
+      { if (!juegoEnMarcha) {
+          juegoEnMarcha = true
+          game.removeVisual(pantallaPrincipal)
+          game.addVisual(instrucciones)
+          keyboard.m().onPressDo(
+            { 
+              game.removeVisual(instrucciones)
+              juegoEnMarcha = false
+              return self.iniciarPantallaPrincipal()
+            }
+          )
+        } }
+    )
   }
-
+  
   method reiniciar() {
     kike.position(game.origin())
-    listaDeElementos.forEach({elemento => elemento.position(self.posicionAleatoriaVacia())})
+    listaDeElementos.forEach(
+      { elemento => elemento.position(self.posicionAleatoriaVacia()) }
+    )
   }
   
   method iniciarJuego() {
-    kike.aparecer()
+    if(not game.hasVisual(kike)) {
+      kike.aparecer()
+    }
     marcadorFinal.aparecer()
     game.onTick(
       1000,
@@ -96,11 +114,11 @@ object juego {
   }
   
   method agregarParedDestructible() {
-    const obstaculoDestructible = new ObstaculoDestructible(position = self.posicionAleatoriaVacia())
-    listaDeElementos.add(obstaculoDestructible)
-    game.addVisual(
-      obstaculoDestructible
+    const obstaculoDestructible = new ObstaculoDestructible(
+      position = self.posicionAleatoriaVacia()
     )
+    listaDeElementos.add(obstaculoDestructible)
+    game.addVisual(obstaculoDestructible)
   }
   
   method terminarJuegoMal() {

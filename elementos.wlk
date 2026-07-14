@@ -22,7 +22,7 @@ object kike {
       juego.terminarJuegoMal()
     }
   }
-
+  
   method morir() {
     vida = 0
   }
@@ -130,6 +130,10 @@ object pantallaPrincipal {
   method position() = game.origin()
   
   method mostrar() = game.addVisual(self)
+
+  method teCruzasteCon(personaje, elemento) {
+    
+  }
 }
 
 object instrucciones {
@@ -138,6 +142,10 @@ object instrucciones {
   method position() = game.origin()
   
   method mostrar() = game.addVisual(self)
+
+  method teCruzasteCon(personaje, elemento) {
+    
+  }
 }
 
 object controles {
@@ -146,4 +154,8 @@ object controles {
   method position() = game.origin()
   
   method mostrar() = game.addVisual(self)
+
+  method teCruzasteCon(personaje, elemento) {
+    
+  }
 }
