@@ -29,9 +29,11 @@ object juego {
   }
   
   method iniciarPantallaPrincipal() {
-    if (not game.hasVisual(pantallaPrincipal)) {
-      pantallaPrincipal.mostrar()
-    }
+    if (not game.hasVisual(pantallaPrincipal)) pantallaPrincipal.mostrar()
+    self.teclasDeControl()
+  }
+  
+  method teclasDeControl() {
     keyboard.enter().onPressDo(
       { if (!juegoEnMarcha) {
           juegoEnMarcha = true
@@ -69,6 +71,16 @@ object juego {
           )
         } }
     )
+    
+    keyboard.r().onPressDo(
+      { 
+        game.removeVisual(kike)
+        game.removeVisual(marcador)
+        game.removeVisual(marcadorFinal)
+        game.clear()
+        self.iniciarJuego()
+      }
+    )
   }
   
   method reiniciar() {
@@ -79,9 +91,8 @@ object juego {
   }
   
   method iniciarJuego() {
-    if(not game.hasVisual(kike)) {
-      kike.aparecer()
-    }
+    self.teclasDeControl()
+    if (not game.hasVisual(kike)) kike.aparecer()
     marcadorFinal.aparecer()
     game.onTick(
       1000,
@@ -122,10 +133,12 @@ object juego {
   }
   
   method terminarJuegoMal() {
+    self.teclasDeControl()
     self.cargarPantallaDeMuerte()
   }
   
   method terminarJuegoBien() {
+    self.teclasDeControl()
     self.cargarPantallaDeVictoria()
   }
   

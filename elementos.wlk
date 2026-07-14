@@ -130,7 +130,7 @@ object pantallaPrincipal {
   method position() = game.origin()
   
   method mostrar() = game.addVisual(self)
-
+  
   method teCruzasteCon(personaje, elemento) {
     
   }
@@ -142,7 +142,7 @@ object instrucciones {
   method position() = game.origin()
   
   method mostrar() = game.addVisual(self)
-
+  
   method teCruzasteCon(personaje, elemento) {
     
   }
@@ -154,7 +154,7 @@ object controles {
   method position() = game.origin()
   
   method mostrar() = game.addVisual(self)
-
+  
   method teCruzasteCon(personaje, elemento) {
     
   }
