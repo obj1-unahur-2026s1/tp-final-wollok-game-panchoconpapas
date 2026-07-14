@@ -17,7 +17,7 @@ object kike {
   method perderVidasPorToparseConEnemigo(unEnemigo) {
     vida -= 0.max(unEnemigo.vidasQueArrebata())
     if (vida <= 0) {
-      juego.musica().pause()
+      //juego.musica().pause()
       game.sound("gameOverSound.mp3").play()
       juego.terminarJuegoMal()
     }
@@ -34,7 +34,7 @@ object kike {
   method perderEnergia() {
     energia = 0.max(energia - 1)
     if (energia <= 0) {
-      juego.musica().pause()
+     // juego.musica().pause()
       game.sound("gameOverSound.mp3").play()
       juego.terminarJuegoMal()
     }
@@ -114,4 +114,12 @@ object victoria {
   method teCruzasteCon(personaje, elemento) {
   }
   method image() = "victoria.png"
+}
+
+object pantallaPrincipal {
+  method image() = "pantallaPrincipal.png"
+  
+  method position() = game.origin()
+  
+  method mostrar() = game.addVisual(self)
 }

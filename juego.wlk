@@ -8,28 +8,27 @@ object juego {
   const listaDeEnemigos = []
   const sonidoAmbiente = game.sound("kikeSound.mp3")
   var juegoEnMarcha = false
+  var errores = 0
   method musica() = sonidoAmbiente
   
   method iniciar() {
-    try {
-      sonidoAmbiente.volume(0.025)
-      sonidoAmbiente.play()
-    } catch e : Exception {}
     kike.aparecer()
-    marcador.aparecer()
     marcadorFinal.aparecer()
     game.onTick(1000, "moverse", { listaDeEnemigos.forEach({ enemigo => enemigo.movete() }) })
     game.onCollideDo(kike, { elemento => elemento.teCruzasteCon(kike, elemento) })
     self.generarElementos()
+    marcador.aparecer()
+    self.configs()
   }
   
   method iniciarPantallaPrincipal() {
+    sonidoAmbiente.volume(0.025)
+    sonidoAmbiente.play()
     game.title("Kike Game")
     game.width(10)
     game.height(10)
     game.cellSize(50)
     game.ground("pasto.png")
-    self.configs()
     game.start()
     pantallaPrincipal.mostrar()
     keyboard.enter().onPressDo({
@@ -178,10 +177,3 @@ object juego {
   
 }
 
-object pantallaPrincipal {
-  method image() = "pantallaPrincipal.png"
-  
-  method position() = game.origin()
-  
-  method mostrar() = game.addVisual(self)
-}

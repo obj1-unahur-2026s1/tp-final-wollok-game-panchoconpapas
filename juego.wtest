@@ -1,6 +1,0 @@
-import juego.*
-import elementos.*
-import obstaculos.*
-import enemigos.*
-import comidas.*
-
