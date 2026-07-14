@@ -6,22 +6,18 @@ import elementos.*
 
 object juego {
   const listaDeEnemigos = []
+  const listaDeElementos = []
   const sonidoAmbiente = game.sound("kikeSound.mp3")
   var juegoEnMarcha = false
-  var errores = 0
+  
   method musica() = sonidoAmbiente
   
   method iniciar() {
-    kike.aparecer()
-    marcadorFinal.aparecer()
-    game.onTick(1000, "moverse", { listaDeEnemigos.forEach({ enemigo => enemigo.movete() }) })
-    game.onCollideDo(kike, { elemento => elemento.teCruzasteCon(kike, elemento) })
-    self.generarElementos()
-    marcador.aparecer()
-    self.configs()
+    self.iniciarEscenario()
+    self.iniciarPantallaPrincipal()
   }
   
-  method iniciarPantallaPrincipal() {
+  method iniciarEscenario() {
     sonidoAmbiente.volume(0.025)
     sonidoAmbiente.play()
     game.title("Kike Game")
@@ -30,22 +26,57 @@ object juego {
     game.cellSize(50)
     game.ground("pasto.png")
     game.start()
+  }
+  
+  method iniciarPantallaPrincipal() {
     pantallaPrincipal.mostrar()
-    keyboard.enter().onPressDo({
-        if (!juegoEnMarcha) {
-            juegoEnMarcha = true 
-            game.removeVisual(pantallaPrincipal)
-            self.iniciar()
-            }
-      }
+    keyboard.enter().onPressDo(
+      { if (!juegoEnMarcha) {
+          juegoEnMarcha = true
+          game.removeVisual(pantallaPrincipal)
+          self.iniciarJuego()
+        } }
     )
+    
+    keyboard.c().onPressDo(
+      { if (!juegoEnMarcha) {
+          juegoEnMarcha = true
+          game.removeVisual(pantallaPrincipal)
+          game.addVisual(controles)
+          keyboard.m().onPressDo({game.removeVisual(controles); juegoEnMarcha = false; self.iniciarPantallaPrincipal()})
+        } }
+    )
+
+    keyboard.i().onPressDo({
+      if (!juegoEnMarcha) {
+        juegoEnMarcha = true
+        game.removeVisual(pantallaPrincipal)
+        game.addVisual(instrucciones)
+        keyboard.m().onPressDo({game.removeVisual(instrucciones); juegoEnMarcha = false; self.iniciarPantallaPrincipal()})
+      }
+    })
   }
 
-  method configs() {
-    keyboard.up().onPressDo({ kike.perderEnergia() })
-    keyboard.down().onPressDo({ kike.perderEnergia() })
-    keyboard.left().onPressDo({ kike.perderEnergia() })
-    keyboard.right().onPressDo({ kike.perderEnergia() })
+  method reiniciar() {
+    kike.position(game.origin())
+    listaDeElementos.forEach({elemento => elemento.position(self.posicionAleatoriaVacia())})
+  }
+  
+  method iniciarJuego() {
+    kike.aparecer()
+    marcadorFinal.aparecer()
+    game.onTick(
+      1000,
+      "moverse",
+      { listaDeEnemigos.forEach({ enemigo => enemigo.movete() }) }
+    )
+    game.onCollideDo(
+      kike,
+      { elemento => elemento.teCruzasteCon(kike, elemento) }
+    )
+    self.generarElementos()
+    marcador.aparecer()
+    self.configs()
   }
   
   method generarElementos() {
@@ -57,9 +88,18 @@ object juego {
     self.generarComidas()
   }
   
+  method configs() {
+    keyboard.up().onPressDo({ kike.perderEnergia() })
+    keyboard.down().onPressDo({ kike.perderEnergia() })
+    keyboard.left().onPressDo({ kike.perderEnergia() })
+    keyboard.right().onPressDo({ kike.perderEnergia() })
+  }
+  
   method agregarParedDestructible() {
+    const obstaculoDestructible = new ObstaculoDestructible(position = self.posicionAleatoriaVacia())
+    listaDeElementos.add(obstaculoDestructible)
     game.addVisual(
-      new ObstaculoDestructible(position = self.posicionAleatoriaVacia())
+      obstaculoDestructible
     )
   }
   
@@ -77,17 +117,15 @@ object juego {
     game.addVisual(gameOver)
     juegoEnMarcha = false
     keyboard.enter().onPressDo(
-      {
-        if (not juegoEnMarcha) {
+      { if (not juegoEnMarcha) {
           juegoEnMarcha = true
           game.removeVisual(gameOver)
           listaDeEnemigos.clear()
           kike.recargarVida()
           kike.recargarEnergia()
           kike.position(game.origin())
-          self.iniciar()
-          }   
-      }
+          self.iniciarJuego()
+        } }
     )
   }
   
@@ -96,17 +134,15 @@ object juego {
     game.clear()
     game.addVisual(victoria)
     keyboard.enter().onPressDo(
-      { 
-        if (not juegoEnMarcha) {
+      { if (not juegoEnMarcha) {
           juegoEnMarcha = true
           game.removeVisual(victoria)
           listaDeEnemigos.clear()
           kike.recargarVida()
           kike.recargarEnergia()
           kike.position(game.origin())
-          self.iniciar()
-          }
-      }
+          self.iniciarJuego()
+        } }
     )
   }
   
@@ -117,7 +153,9 @@ object juego {
   }
   
   method agregarObstaculo() {
-    game.addVisual(new Obstaculo(position = self.posicionAleatoriaVacia()))
+    const obstaculo = new Obstaculo(position = self.posicionAleatoriaVacia())
+    listaDeElementos.add(obstaculo)
+    game.addVisual(obstaculo)
   }
   
   method posicionAleatoria() = game.at(
@@ -174,6 +212,4 @@ object juego {
     const perrote = new Perrote(nivel = unNivel)
     game.schedule(1000, { perrote.aparecer() })
   }
-  
 }
-

@@ -23,10 +23,14 @@ object kike {
     }
   }
 
+  method morir() {
+    vida = 0
+  }
+  
   method recargarVida() {
     vida = 10
   }
-
+  
   method recargarEnergia() {
     energia = 100
   }
@@ -34,7 +38,7 @@ object kike {
   method perderEnergia() {
     energia = 0.max(energia - 1)
     if (energia <= 0) {
-     // juego.musica().pause()
+      // juego.musica().pause()
       game.sound("gameOverSound.mp3").play()
       juego.terminarJuegoMal()
     }
@@ -102,8 +106,9 @@ object marcadorFinal {
 
 object gameOver {
   method position() = game.origin()
-
+  
   method teCruzasteCon(personaje, elemento) {
+    
   }
   
   method image() = "gameOver.png"
@@ -111,13 +116,32 @@ object gameOver {
 
 object victoria {
   method position() = game.origin()
+  
   method teCruzasteCon(personaje, elemento) {
+    
   }
+  
   method image() = "victoria.png"
 }
 
 object pantallaPrincipal {
   method image() = "pantallaPrincipal.png"
+  
+  method position() = game.origin()
+  
+  method mostrar() = game.addVisual(self)
+}
+
+object instrucciones {
+  method image() = "instrucciones.png"
+  
+  method position() = game.origin()
+  
+  method mostrar() = game.addVisual(self)
+}
+
+object controles {
+  method image() = "controles.png"
   
   method position() = game.origin()
   
