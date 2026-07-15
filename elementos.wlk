@@ -61,10 +61,6 @@ object kike {
     game.removeVisual(pared)
   }
   
-  method paralizar() {
-    
-  }
-  
   method image() = "kike.png"
 }
 
@@ -150,6 +146,18 @@ object instrucciones {
 
 object controles {
   method image() = "controles.png"
+  
+  method position() = game.origin()
+  
+  method mostrar() = game.addVisual(self)
+  
+  method teCruzasteCon(personaje, elemento) {
+    
+  }
+}
+
+object dificultades {
+  method image() = "dificultades.png"
   
   method position() = game.origin()
   

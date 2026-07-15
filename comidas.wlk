@@ -20,7 +20,6 @@ class Comida {
   }
   
   method teCruzasteCon(personaje, comida) {
-    personaje.paralizar()
     game.sound("perroComiendo.mp3").play()
     personaje.aumentarPuntosPorToparseCon(comida)
     game.say(self, "Estaba rico")

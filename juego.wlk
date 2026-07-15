@@ -8,6 +8,7 @@ object juego {
   const listaDeEnemigos = []
   const listaDeElementos = []
   const sonidoAmbiente = game.sound("kikeSound.mp3")
+  var property dificultad = 1
   var juegoEnMarcha = false
   
   method musica() = sonidoAmbiente
@@ -51,7 +52,7 @@ object juego {
             { 
               game.removeVisual(controles)
               juegoEnMarcha = false
-              return self.iniciarPantallaPrincipal()
+              self.iniciarPantallaPrincipal()
             }
           )
         } }
@@ -66,7 +67,23 @@ object juego {
             { 
               game.removeVisual(instrucciones)
               juegoEnMarcha = false
-              return self.iniciarPantallaPrincipal()
+              self.iniciarPantallaPrincipal()
+            }
+          )
+        } }
+    )
+    
+    keyboard.d().onPressDo(
+      { if (!juegoEnMarcha) {
+          juegoEnMarcha = true
+          game.removeVisual(pantallaPrincipal)
+          game.addVisual(dificultades)
+          self.teclasDificultades()
+          keyboard.m().onPressDo(
+            { 
+              game.removeVisual(dificultades)
+              juegoEnMarcha = false
+              self.iniciarPantallaPrincipal()
             }
           )
         } }
@@ -78,16 +95,14 @@ object juego {
         game.removeVisual(marcador)
         game.removeVisual(marcadorFinal)
         game.clear()
-        self.iniciarJuego()
+        return self.iniciarJuego()
       }
     )
   }
   
-  method reiniciar() {
-    kike.position(game.origin())
-    listaDeElementos.forEach(
-      { elemento => elemento.position(self.posicionAleatoriaVacia()) }
-    )
+  method teclasDificultades() {
+    keyboard.b().onPressDo({   juegoEnMarcha = false; self.dificultad(1)})
+    keyboard.f().onPressDo({   juegoEnMarcha = false; self.dificultad(2)})
   }
   
   method iniciarJuego() {
@@ -224,9 +239,9 @@ object juego {
   }
   
   method generarEnemigos() {
-    self.aparecerEnemigoPerritoDeNivel(1)
-    self.aparecerEnemigoPerroDeNivel(2)
-    self.aparecerEnemigoPerroteDeNivel(3)
+    self.aparecerEnemigoPerritoDeNivel(dificultad)
+    self.aparecerEnemigoPerroDeNivel(dificultad)
+    self.aparecerEnemigoPerroteDeNivel(dificultad)
   }
   
   method aparecerEnemigoPerritoDeNivel(unNivel) {

@@ -56,17 +56,17 @@ class Enemigo {
 class Perrito inherits Enemigo {
   override method image() = "perrito.png"
   
-  override method vidasQueArrebata() = 1
+  override method vidasQueArrebata() = 1 + juego.dificultad()
 }
 
 class Perro inherits Enemigo {
   override method image() = "perro.png"
   
-  override method vidasQueArrebata() = 2
+  override method vidasQueArrebata() = 2 + juego.dificultad()
 }
 
 class Perrote inherits Enemigo {
   override method image() = "perrote.png"
   
-  override method vidasQueArrebata() = 3
+  override method vidasQueArrebata() = 3 + juego.dificultad()
 }
