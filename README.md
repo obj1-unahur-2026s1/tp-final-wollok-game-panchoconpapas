@@ -6,10 +6,10 @@
 - **JOHANN GUSTAVO ADAM**
 
 ## Capturas
-![Logo UNAHUR](./assets/KikeGame1.png)
-![Logo UNAHUR](./assets/KikeGame2.png)
-![Logo UNAHUR](./assets/KikeGame3.png)
-![Logo UNAHUR](./assets/KikeGame4.png)
+![KikeGame1](./assets/KikeGame1.png)
+![KikeGame2](./assets/KikeGame2.png)
+![KikeGame3](./assets/KikeGame3.png)
+![KikeGame4](./assets/KikeGame4.png)
 
 ## Reglas de Juego / Instrucciones
 
